@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 
 
 
@@ -33,6 +33,9 @@ inputRef.current.focus();
       setTodos(storedTodos);
     }
   }, []);
+ const memoizedTodos = useMemo(() => {
+  return todos;
+}, [todos]);
 
   return (
     <>
@@ -42,7 +45,7 @@ inputRef.current.focus();
     <input ref={inputRef}  type="text" placeholder="Add a new todo item" value={todoInput} onChange={(e) => setTodoInput(e.target.value)} />
     <button onClick={handleTodoInputChange}>Add</button>
     </section>
-    <section className='todos'>{todos.map((todo, index) => (
+    <section className='todos'>{memoizedTodos.map((todo, index) => (
       <div key={index}>{todo} <button onClick={() => setTodos(todos.filter((_, i) => i !== index))}>❌</button> </div>
     ))}</section>
 
